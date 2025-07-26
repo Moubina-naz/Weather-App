@@ -39,7 +39,7 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
             .fillMaxSize()
             .background(weatherUi.backgroundColor)
             .padding(8.dp),
-        //contentAlignment = Alignment.Center
+
     ) {
         Row(
             modifier = Modifier
@@ -47,7 +47,7 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                 .padding(top = 16.dp),
             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // LEFT SIDE TEXTS
+
             Column(
                 modifier = Modifier
                     .weight(1f)  // Takes up all remaining space
@@ -65,7 +65,7 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                 modifier = Modifier
                     .rotate(90f)
                     .padding(end = 8.dp),
-                fontSize = 40.sp,
+                fontSize = 41.sp,
                 style = MaterialTheme.typography.titleMedium
             )
         }
