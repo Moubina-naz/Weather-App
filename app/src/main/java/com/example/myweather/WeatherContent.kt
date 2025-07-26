@@ -65,7 +65,7 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                 modifier = Modifier
                     .rotate(90f)
                     .padding(end = 8.dp),
-                fontSize = 41.sp,
+                fontSize = 40.sp,
                 style = MaterialTheme.typography.titleMedium
             )
         }
