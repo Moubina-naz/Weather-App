@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,16 +42,10 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
             .padding(8.dp),
 
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-
             Column(
-                modifier = Modifier
-                    .weight(1f)  // Takes up all remaining space
+                modifier = Modifier.align(Alignment.TopStart)
+                    .padding(16.dp),
+                     // Takes up all remaining space
             ) {
                 Text(text = weatherUi.date, fontSize = 18.sp, style = MaterialTheme.typography.labelSmall)
                 Spacer(modifier = Modifier.height(4.dp))
@@ -59,16 +54,21 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                 Text(text = weatherUi.country, fontSize = 18.sp, style = MaterialTheme.typography.bodySmall)
             }
 
-            // RIGHT SIDE SUNNY TEXT
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd).wrapContentSize()
+                .padding(16.dp)
+        ) {
             Text(
                 text = weatherUi.condition.name,
                 modifier = Modifier
-                    .rotate(90f)
+                    .vertical().rotate(90f)
                     .padding(end = 8.dp),
-                fontSize = 40.sp,
+                fontSize = 41.sp,
                 style = MaterialTheme.typography.titleMedium
             )
         }
+
 
 
         val iconPainter = when (weatherUi.iconType) {
