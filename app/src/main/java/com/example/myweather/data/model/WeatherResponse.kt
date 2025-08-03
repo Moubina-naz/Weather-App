@@ -1,10 +1,7 @@
-package com.example.myweather.API
+package com.example.myweather.data.model
 
 import android.util.Log
-import androidx.compose.ui.graphics.Color
-import com.example.myweather.WeatherCondition
-import com.example.myweather.WeatherIconType
-import com.example.myweather.WeatherUiModel
+import com.example.myweather.ui.theme.getWeatherPalette
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -78,6 +75,7 @@ data class City(
 data class Coord(val lat: Double, val lon: Double)
 
 fun WeatherResponse.toUiModel(): WeatherUiModel? {
+
     if (list.isEmpty() || city == null) {
         Log.w("WeatherData", "Incomplete weather data: list=${list.size}, city=${city}")
         return null
@@ -103,24 +101,22 @@ fun WeatherResponse.toUiModel(): WeatherUiModel? {
         WeatherCondition.STORMY -> WeatherIconType.STORMY
         WeatherCondition.WINDY -> WeatherIconType.WIND
     }
-
-    val backgroundColor = when(condition) {
-        WeatherCondition.SUNNY -> Color(0xFFEAE4CA)
-        WeatherCondition.CLOUDY -> Color(0xFFD3D3D3)
-        WeatherCondition.RAINY -> Color(0xFFA4B0BE)
-        WeatherCondition.STORMY -> Color(0xFF4B6584)
-        WeatherCondition.WINDY -> Color(0xFFDFE6E9)
-    }
+    val palette = getWeatherPalette(condition)
     val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-
     val date = dateFormat.format(this.list.firstOrNull()?.dt?.times(1000 ?: 0)?.let { Date(it) });
         return WeatherUiModel(
             condition = condition,
-            backgroundColor = backgroundColor,
+            backgroundColor = palette.background,
+            textColor = palette.textPrimary,
+            searchBgColor = palette.searchbg,
+            searchTextColor = palette.searchtext,
             iconType = iconType,
-            temperature = "${main?.temp?.toInt() ?: 0}°C",
+            temperature = "${main?.temp?.toInt() ?: 0}°C ",
             city = this.city.name,
             date = date,
-            country = this.city.country
+            country = city?.country?.let { code ->
+                Locale("", code).displayCountry
+            } ?: "Unknown Country"
+
         )
 }

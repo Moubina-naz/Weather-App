@@ -1,4 +1,4 @@
-package com.example.myweather
+package com.example.myweather.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,29 +15,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myweather.API.NetworkResponse
-import com.example.myweather.API.toUiModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-
+import com.example.myweather.data.api.NetworkResponse
+import com.example.myweather.data.model.toUiModel
+import androidx.compose.foundation.layout.statusBarsPadding
+import com.example.myweather.data.model.WeatherCondition
+import com.example.myweather.ui.components.DayChooser
+import com.example.myweather.ui.components.SearchBars
+import com.example.myweather.ui.components.WeatherContent
+import com.example.myweather.ui.theme.getWeatherPalette
+import com.example.myweather.viewmodel.WeatherViewModel
 
 @Composable
 fun WeatherScreen(viewModel: WeatherViewModel, modifier: Modifier = Modifier){
     var showContent by remember { mutableStateOf(false) }
     val weatherResult by viewModel.weatherResult.observeAsState()
+    val currentCondition = remember { mutableStateOf(WeatherCondition.SUNNY) }
+
+    val palette = getWeatherPalette(currentCondition.value)
 
     Column(modifier= Modifier
-        .fillMaxSize()
-        .background(Color.White)
-        .padding(8.dp)) {
-        SearchBars(viewModel = viewModel,
+        .fillMaxSize().statusBarsPadding()
+        .background(palette.background)
+        ) {
+        SearchBars(viewModel = viewModel, weatherCondition = currentCondition.value,
             onSearch = { city ->
                 viewModel.getData(city) // this triggers the API call
                 showContent = true      // (optional) to show more data
             })
-        Spacer(modifier = Modifier.height(4.dp))
-        DayChooser()
+        //Spacer(modifier = Modifier.height(4.dp))
+        DayChooser(weatherCondition = currentCondition.value)
         when (val result = weatherResult) {
             is NetworkResponse.Loading -> {
                 Text("Loading...", modifier = Modifier.padding(8.dp))
@@ -45,6 +52,7 @@ fun WeatherScreen(viewModel: WeatherViewModel, modifier: Modifier = Modifier){
             is NetworkResponse.Success -> {
                 val uiModel = result.data.toUiModel()
                 if (uiModel != null) {
+                    currentCondition.value = uiModel.condition
                     WeatherContent(weatherUi = uiModel)
                 } else {
                     Text("Could not parse weather data", color = Color.Red)

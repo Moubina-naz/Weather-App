@@ -1,21 +1,15 @@
-package com.example.myweather
+package com.example.myweather.ui.components
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,15 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myweather.R
+import com.example.myweather.data.model.WeatherCondition
+import com.example.myweather.data.model.WeatherIconType
+import com.example.myweather.data.model.WeatherUiModel
+import com.example.myweather.data.model.vertical
+
 @Composable
 fun WeatherContent(weatherUi: WeatherUiModel) {
 
@@ -39,7 +36,7 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
         modifier = Modifier
             .fillMaxSize()
             .background(weatherUi.backgroundColor)
-            .padding(8.dp),
+            .padding(0.dp),
 
     ) {
             Column(
@@ -47,11 +44,13 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                     .padding(16.dp),
                      // Takes up all remaining space
             ) {
-                Text(text = weatherUi.date, fontSize = 18.sp, style = MaterialTheme.typography.labelSmall)
+                Text(text = weatherUi.date, fontSize = 23.sp, style = MaterialTheme.typography.titleMedium,color =weatherUi.textColor
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = weatherUi.city, fontSize = 25.sp, style = MaterialTheme.typography.titleMedium)
+                Text(text = weatherUi.city, fontSize = 30.sp, style = MaterialTheme.typography.titleLarge,color =weatherUi.textColor
+                )
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(text = weatherUi.country, fontSize = 18.sp, style = MaterialTheme.typography.bodySmall)
+                Text(text = weatherUi.country, fontSize = 23.sp, style = MaterialTheme.typography.titleMedium,color =weatherUi.textColor)
             }
 
         Box(
@@ -64,37 +63,39 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                 modifier = Modifier
                     .vertical().rotate(90f)
                     .padding(end = 8.dp),
-                fontSize = 41.sp,
-                style = MaterialTheme.typography.titleMedium
+                fontSize = 65.sp,
+                style = MaterialTheme.typography.headlineMedium,
+                color =weatherUi.textColor
+
             )
         }
 
 
 
         val iconPainter = when (weatherUi.iconType) {
-            WeatherIconType.SUN -> painterResource(R.drawable.sunny)
-            WeatherIconType.CLOUD -> painterResource(R.drawable.cloudy)
-            WeatherIconType.RAIN -> painterResource(R.drawable.rainy)
-            WeatherIconType.STORMY -> painterResource(R.drawable.stormy)
+            WeatherIconType.SUN -> painterResource(R.drawable.sun)
+            WeatherIconType.CLOUD -> painterResource(R.drawable.cloud)
+            WeatherIconType.RAIN -> painterResource(R.drawable.rain)
+            WeatherIconType.STORMY -> painterResource(R.drawable.storm)
             WeatherIconType.WIND -> painterResource(R.drawable.windy)
             else -> painterResource(R.drawable.windy)
         }
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         Image(
             painter = iconPainter,
             contentDescription = "Weather Icon: ${weatherUi.iconType.name}",
             modifier = Modifier
-                .fillMaxWidth(1f)
-                .aspectRatio(1f)
-                .align(Alignment.Center),
-            contentScale = ContentScale.Fit
+                .fillMaxWidth()           // Full width
+                .align(Alignment.Center), // Center the image
+            contentScale = ContentScale.FillWidth // Stretch to fill width, preserve aspect
         )
 
         Text(
             text = weatherUi.temperature,
-            fontSize = 80.sp,
-            modifier = Modifier.align(Alignment.BottomStart),
-            style = MaterialTheme.typography.displayMedium
+            fontSize = 90.sp,
+            modifier = Modifier.align(Alignment.BottomStart).padding(bottom=16.dp),
+            style = MaterialTheme.typography.bodyLarge,
+            color =weatherUi.textColor
         )
     }
 }
@@ -115,6 +116,9 @@ fun WeatherContentPreview() {
                         condition = WeatherCondition.SUNNY,
                         backgroundColor = Color(0xFFEAE4CA),
                         iconType = WeatherIconType.STORMY,
+                        textColor = Color.Black,
+                        searchBgColor = Color(0xFFEAE4CA),
+                        searchTextColor = Color.Black,
                         temperature = "72°F",
                         city = "New York",
                         date = "July 25, 2023",

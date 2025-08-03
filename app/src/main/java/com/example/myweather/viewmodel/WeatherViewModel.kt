@@ -1,18 +1,18 @@
-package com.example.myweather
+package com.example.myweather.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myweather.API.Constant
-import com.example.myweather.API.NetworkResponse
-import com.example.myweather.API.RetrifitInstance
-import com.example.myweather.API.WeatherResponse
+import com.example.myweather.data.api.Constant
+import com.example.myweather.data.api.NetworkResponse
+import com.example.myweather.data.api.RetrofitInstance
+import com.example.myweather.data.model.WeatherResponse
 import kotlinx.coroutines.launch
 
 class WeatherViewModel: ViewModel() {
-    private val weatherApi = RetrifitInstance.weatherApi
+    private val weatherApi = RetrofitInstance.weatherApi
     private val _weatherResult = MutableLiveData<NetworkResponse<WeatherResponse>>()
     val weatherResult: LiveData<NetworkResponse<WeatherResponse>> = _weatherResult
 

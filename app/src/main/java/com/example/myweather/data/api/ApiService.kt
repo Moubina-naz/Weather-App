@@ -1,17 +1,18 @@
-package com.example.myweather.API
+package com.example.myweather.data.api
+import com.example.myweather.data.model.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("weather")
+    @GET("forecast")
     suspend fun getWeatherByCity(
         @Query("q") city: String,
         @Query("appid") apiKey: String,
         @Query("units") units: String = "metric"
     ): Response<WeatherResponse>
 
-    @GET("weather")
+    @GET("forecast")
     suspend fun getWeatherByCoords(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,

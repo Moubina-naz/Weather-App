@@ -1,4 +1,4 @@
-package com.example.myweather
+package com.example.myweather.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,41 +18,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myweather.data.model.WeatherCondition
+import com.example.myweather.ui.theme.getWeatherPalette
 
 @Composable
 fun DayChooser(
-                     modifier: Modifier = Modifier){
-    val options = listOf("Today", "Tomorrow", "6 days")
+                     modifier: Modifier = Modifier,weatherCondition: WeatherCondition
+){
+    val options = listOf("TODAY", "TOMORROW", "6 DAYS")
     val selectedOption = "Daily"
-
+    val palette = getWeatherPalette(weatherCondition)
     Row(
         modifier = modifier.fillMaxWidth()
-            .background(Color(0xFFEAE4CA))
+            .background(palette.background)
             .padding(horizontal = 12.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         options.forEach { option ->
             val isSelected = selectedOption == option
-            val bgColor = if (isSelected) Color(0xFF8AD4D4) else Color(0xFFEAE4CA)
-            val textColor = if (isSelected) Color.White else Color.Black
-            val borderColor = if (isSelected) Color.Transparent else Color(0xFFEAE4CA)
+            //val bgColor = if (isSelected) Color(0xFF8AD4D4) else Color(0xFFEAE4CA)
+            val textColor = palette.textPrimary
+           // val borderColor = if (isSelected) Color.Transparent else Color(0xFFEAE4CA)
 
             Box(
                 modifier = Modifier
                     .padding(horizontal = 4.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(bgColor)
+                    .background(palette.background)
                     .border(width = 0.dp,
-                        color = bgColor,
-                        shape = RoundedCornerShape(20.dp)
+                        color = palette.background,
                     ).clickable {  }
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .padding(horizontal = 14.dp, vertical = 8.dp)
             ) {
                 Text(
                     text = option,
                     color = textColor,
-                    fontSize = 20.sp,
-                    style = MaterialTheme.typography.bodyMedium
+                    fontSize = 19.sp,
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }
@@ -61,5 +62,5 @@ fun DayChooser(
 @Preview(showBackground = true)
 @Composable
 fun DayChooserPreview() {
-    DayChooser()
+    //DayChooser()
 }
