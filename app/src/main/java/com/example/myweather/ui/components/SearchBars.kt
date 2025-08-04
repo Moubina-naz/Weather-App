@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -27,11 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myweather.data.model.WeatherCondition
 import com.example.myweather.ui.theme.getWeatherPalette
-import com.example.myweather.viewmodel.WeatherViewModel
+import com.example.myweather.viewmodel.ApiViewModel
 
 @Composable
 fun SearchBars(modifier: Modifier = Modifier, weatherCondition: WeatherCondition,
-               viewModel: WeatherViewModel, onSearch: (String) -> Unit) {
+               viewModel: ApiViewModel, onSearch: (String) -> Unit) {
 
     var city by remember { mutableStateOf("") }
     val palette = getWeatherPalette(weatherCondition)

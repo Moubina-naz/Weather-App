@@ -2,9 +2,7 @@ package com.example.myweather.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,18 +22,18 @@ import com.example.myweather.ui.components.DayChooser
 import com.example.myweather.ui.components.SearchBars
 import com.example.myweather.ui.components.WeatherContent
 import com.example.myweather.ui.theme.getWeatherPalette
-import com.example.myweather.viewmodel.WeatherViewModel
+import com.example.myweather.viewmodel.ApiViewModel
 
 @Composable
-fun WeatherScreen(viewModel: WeatherViewModel, modifier: Modifier = Modifier){
+fun WeatherScreen(viewModel: ApiViewModel, modifier: Modifier = Modifier){
     var showContent by remember { mutableStateOf(false) }
     val weatherResult by viewModel.weatherResult.observeAsState()
     val currentCondition = remember { mutableStateOf(WeatherCondition.SUNNY) }
 
     val palette = getWeatherPalette(currentCondition.value)
-
     Column(modifier= Modifier
-        .fillMaxSize().statusBarsPadding()
+        .fillMaxSize()
+        .statusBarsPadding()
         .background(palette.background)
         ) {
         SearchBars(viewModel = viewModel, weatherCondition = currentCondition.value,
@@ -45,6 +43,11 @@ fun WeatherScreen(viewModel: WeatherViewModel, modifier: Modifier = Modifier){
             })
         //Spacer(modifier = Modifier.height(4.dp))
         DayChooser(weatherCondition = currentCondition.value)
+        /*CityPagerIndicator(
+            totalCities = savedCities.size,
+            currentCityIndex = currentCityIndex
+        )*/
+
         when (val result = weatherResult) {
             is NetworkResponse.Loading -> {
                 Text("Loading...", modifier = Modifier.padding(8.dp))

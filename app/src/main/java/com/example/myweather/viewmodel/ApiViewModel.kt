@@ -11,7 +11,7 @@ import com.example.myweather.data.api.RetrofitInstance
 import com.example.myweather.data.model.WeatherResponse
 import kotlinx.coroutines.launch
 
-class WeatherViewModel: ViewModel() {
+class ApiViewModel: ViewModel() {
     private val weatherApi = RetrofitInstance.weatherApi
     private val _weatherResult = MutableLiveData<NetworkResponse<WeatherResponse>>()
     val weatherResult: LiveData<NetworkResponse<WeatherResponse>> = _weatherResult
@@ -53,5 +53,36 @@ class WeatherViewModel: ViewModel() {
             }
         }
     }
+
+    fun getDataByLocation(lat: Double, lon: Double) {
+        _weatherResult.postValue(NetworkResponse.Loading)
+        viewModelScope.launch {
+            try {
+                val response = weatherApi.getWeatherByCoords(lat, lon, Constant.apikey)
+
+                if (!response.isSuccessful) {
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("API_ERROR", "Code: ${response.code()}, Error: $errorBody")
+                    _weatherResult.postValue(NetworkResponse.Error("API Error: ${response.code()}"))
+                    return@launch
+                }
+
+                val weatherResponse = response.body() ?: run {
+                    _weatherResult.postValue(NetworkResponse.Error("Empty response from server"))
+                    return@launch
+                }
+
+                if (weatherResponse.list.isNullOrEmpty() || weatherResponse.city == null) {
+                    _weatherResult.postValue(NetworkResponse.Error("Incomplete weather data received"))
+                    return@launch
+                }
+
+                _weatherResult.postValue(NetworkResponse.Success(weatherResponse))
+            } catch (e: Exception) {
+                _weatherResult.postValue(NetworkResponse.Error(e.message ?: "Network request failed"))
+            }
+        }
+    }
+
 
     }

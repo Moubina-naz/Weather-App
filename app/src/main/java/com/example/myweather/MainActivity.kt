@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myweather.ui.screen.WeatherScreen
 import com.example.myweather.ui.theme.MyWeatherTheme
-import com.example.myweather.viewmodel.WeatherViewModel
+import com.example.myweather.viewmodel.ApiViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyWeatherTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val viewModel: WeatherViewModel = viewModel()
+                    val viewModel: ApiViewModel = viewModel()
                     WeatherScreen(viewModel, modifier = Modifier.padding(innerPadding))
                 }
             }

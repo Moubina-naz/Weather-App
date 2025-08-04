@@ -73,6 +73,11 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime-livedata:1.8.3")
 // Compose ViewModel integration
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    //location
+    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    implementation ("androidx.compose.foundation:foundation:1.6.0")
+
 
 }
 
