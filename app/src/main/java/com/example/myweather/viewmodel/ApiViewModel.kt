@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myweather.data.api.Constant
 import com.example.myweather.data.api.NetworkResponse
 import com.example.myweather.data.api.RetrofitInstance
+import com.example.myweather.data.model.CitySearchResponse
 import com.example.myweather.data.model.WeatherResponse
 import kotlinx.coroutines.launch
 
@@ -80,6 +81,31 @@ class ApiViewModel: ViewModel() {
                 _weatherResult.postValue(NetworkResponse.Success(weatherResponse))
             } catch (e: Exception) {
                 _weatherResult.postValue(NetworkResponse.Error(e.message ?: "Network request failed"))
+            }
+        }
+    }
+
+    private val _searchResults = MutableLiveData<NetworkResponse<List<CitySearchResponse>>>()
+    val searchResults: LiveData<NetworkResponse<List<CitySearchResponse>>> = _searchResults
+
+
+    fun SearchCity(query: String){
+        _searchResults.postValue(NetworkResponse.Loading)
+        viewModelScope.launch {
+            try {
+                val response = weatherApi.searchCity(query, 5, Constant.apikey)
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body.isNullOrEmpty()) {
+                        _searchResults.postValue(NetworkResponse.Error("No results found"))
+                    } else {
+                        _searchResults.postValue(NetworkResponse.Success(body))
+                    }
+                } else {
+                    _searchResults.postValue(NetworkResponse.Error("Error: ${response.code()}"))
+                }
+            } catch (e: Exception) {
+                _searchResults.postValue(NetworkResponse.Error("Exception: ${e.message}"))
             }
         }
     }

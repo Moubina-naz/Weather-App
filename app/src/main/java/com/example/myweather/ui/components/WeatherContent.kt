@@ -2,8 +2,10 @@ package com.example.myweather.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,7 +42,8 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
 
     ) {
             Column(
-                modifier = Modifier.align(Alignment.TopStart)
+                modifier = Modifier
+                    .align(Alignment.TopStart)
                     .padding(16.dp),
                      // Takes up all remaining space
             ) {
@@ -55,13 +58,15 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
 
         Box(
             modifier = Modifier
-                .align(Alignment.TopEnd).wrapContentSize()
+                .align(Alignment.TopEnd)
+                .wrapContentSize()
                 .padding(16.dp)
         ) {
             Text(
                 text = weatherUi.condition.name,
                 modifier = Modifier
-                    .vertical().rotate(90f)
+                    .vertical()
+                    .rotate(90f)
                     .padding(end = 8.dp),
                 fontSize = 65.sp,
                 style = MaterialTheme.typography.headlineMedium,
@@ -90,13 +95,18 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
             contentScale = ContentScale.FillWidth // Stretch to fill width, preserve aspect
         )
 
-        Text(
-            text = weatherUi.temperature,
-            fontSize = 90.sp,
-            modifier = Modifier.align(Alignment.BottomStart).padding(bottom=16.dp),
-            style = MaterialTheme.typography.bodyLarge,
-            color =weatherUi.textColor
-        )
+       Row(modifier = Modifier.fillMaxWidth()
+               .align(Alignment.BottomStart)
+           .padding(horizontal = 16.dp, vertical = 16.dp), horizontalArrangement = Arrangement.SpaceBetween,
+           verticalAlignment = Alignment.Bottom) {
+            Text(
+                text = weatherUi.temperature,
+                fontSize = 90.sp,
+
+                style = MaterialTheme.typography.bodyLarge,
+                color = weatherUi.textColor
+            )
+        }
     }
 }
 

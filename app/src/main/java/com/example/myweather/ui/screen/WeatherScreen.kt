@@ -36,11 +36,7 @@ fun WeatherScreen(viewModel: ApiViewModel, modifier: Modifier = Modifier){
         .statusBarsPadding()
         .background(palette.background)
         ) {
-        SearchBars(viewModel = viewModel, weatherCondition = currentCondition.value,
-            onSearch = { city ->
-                viewModel.getData(city) // this triggers the API call
-                showContent = true      // (optional) to show more data
-            })
+
         //Spacer(modifier = Modifier.height(4.dp))
         DayChooser(weatherCondition = currentCondition.value)
         /*CityPagerIndicator(

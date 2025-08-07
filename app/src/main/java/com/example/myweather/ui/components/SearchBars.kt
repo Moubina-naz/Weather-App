@@ -29,18 +29,20 @@ import com.example.myweather.ui.theme.getWeatherPalette
 import com.example.myweather.viewmodel.ApiViewModel
 
 @Composable
-fun SearchBars(modifier: Modifier = Modifier, weatherCondition: WeatherCondition,
+fun SearchBars(modifier: Modifier = Modifier,
                viewModel: ApiViewModel, onSearch: (String) -> Unit) {
 
     var city by remember { mutableStateOf("") }
-    val palette = getWeatherPalette(weatherCondition)
+    //val palette = getWeatherPalette(weatherCondition)
     val weatherResult = viewModel.weatherResult.observeAsState()
+
+    val searchResults by viewModel.searchResults.observeAsState()
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .shadow(elevation = 6.dp, shape = RectangleShape, clip = false) // 🌟 adds floating shadow
-            .background(palette.searchbg)
+            .background(Color.White)
     ) {
 
     OutlinedTextField(
@@ -71,10 +73,10 @@ fun SearchBars(modifier: Modifier = Modifier, weatherCondition: WeatherCondition
         },
 
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = palette.searchbg,
-            unfocusedContainerColor = palette.searchbg,
-            focusedTextColor = palette.searchtext,
-            unfocusedTextColor = palette.searchtext,
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            focusedTextColor = Color.White,
+            unfocusedTextColor = Color.White,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
@@ -82,7 +84,7 @@ fun SearchBars(modifier: Modifier = Modifier, weatherCondition: WeatherCondition
         ),
         modifier = modifier
             .fillMaxWidth()
-            .background(palette.searchbg)
+            .background(Color.White)
             .height(56.dp)
     )
 }
