@@ -27,4 +27,5 @@ class StartupViewModel(
             _location.value = loc
         }
     }
+    
 }
