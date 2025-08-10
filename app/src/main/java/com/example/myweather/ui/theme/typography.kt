@@ -56,5 +56,12 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 65.sp,
         letterSpacing = 1.sp
-    )
+    ),
+            labelLarge = TextStyle(
+            fontWeight = FontWeight.SemiBold,
+    fontSize = 16.sp
+),
+    labelSmall = TextStyle(fontWeight = FontWeight.Normal,
+        fontSize = 20.sp)
+
 )
