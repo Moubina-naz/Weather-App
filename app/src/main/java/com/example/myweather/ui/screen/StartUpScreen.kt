@@ -2,17 +2,16 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,15 +29,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.myweather.R
-import com.example.myweather.data.model.WeatherCondition
-import com.example.myweather.ui.components.SearchScreen
+import com.example.myweather.data.model.SearchScrn
+import com.example.myweather.ui.screen.SearchScreen
 import com.example.myweather.ui.screen.WeatherScreen
 import com.example.myweather.viewmodel.ApiViewModel
 import com.example.myweather.viewmodel.StartupViewModel
@@ -48,7 +48,7 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun StartupScreen(
-    locationViewModel: StartupViewModel,
+    locationViewModel: StartupViewModel,navController:  NavController,
     apiViewModel: ApiViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -125,14 +125,17 @@ fun StartupScreen(
                             Text("Enable",fontSize = 20.sp, style = MaterialTheme.typography.labelSmall)
                         }
                         Spacer(modifier = Modifier.height(20.dp))
+                        var isClicked by remember { mutableStateOf(false) }
                         Text(
                             text = "Set Location Manually",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = Color(0xFF1C484C),
-                            )
-                        )
+                            ),
+                            modifier = Modifier.clickable { isClicked = !isClicked
+                            navController.navigate(SearchScrn) })
+
 
                     }
                 }
@@ -142,14 +145,6 @@ fun StartupScreen(
 
 
         // User Denied → fallback to Search
-        locationPermissionState.shouldShowRationale || !locationPermissionState.allPermissionsGranted -> {
-            SearchScreen(
-                viewModel = apiViewModel,
-                onSearch = { city ->
-                    apiViewModel.getData(city)
-                }
-            )
-        }
     }
 }
 

@@ -41,14 +41,17 @@ fun SearchBars(modifier: Modifier = Modifier,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .shadow(elevation = 6.dp, shape = RectangleShape, clip = false) // 🌟 adds floating shadow
-            .background(Color.White)
+            .shadow(elevation = 6.dp, shape = RectangleShape, clip = false)
+            .background(Color(0xFF292A2C))
     ) {
 
     OutlinedTextField(
         value = city,
         onValueChange = {
             city = it
+            if(city.length > 2){
+                viewModel.SearchCity(city.trim())
+            }
         },
         leadingIcon = {
         },
@@ -56,9 +59,9 @@ fun SearchBars(modifier: Modifier = Modifier,
             androidx.compose.material3.IconButton(
                 onClick = {
                     if (city.isNotBlank()) {
-                        viewModel.getData(city.trim())  // This is the key trigger
-                        onSearch(city)
+                        onSearch(city.trim())
                     }
+
                 }
             ) {
                 Icon(
@@ -73,8 +76,8 @@ fun SearchBars(modifier: Modifier = Modifier,
         },
 
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = Color.White,
-            unfocusedContainerColor = Color.White,
+            focusedContainerColor = Color(0xFF292A2C),
+            unfocusedContainerColor =Color(0xFF292A2C),
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
             focusedBorderColor = Color.Transparent,
@@ -84,7 +87,7 @@ fun SearchBars(modifier: Modifier = Modifier,
         ),
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(Color(0xFF292A2C))
             .height(56.dp)
     )
 }

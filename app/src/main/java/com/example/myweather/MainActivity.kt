@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myweather.data.model.Navigation
 import com.example.myweather.ui.screen.WeatherScreen
 import com.example.myweather.ui.theme.MyWeatherTheme
 import com.example.myweather.viewmodel.ApiViewModel
@@ -39,10 +40,9 @@ class MainActivity : ComponentActivity() {
                     val startupViewModel = remember {
                         StartupViewModel(locationManager)
                     }
-                    StartupScreen(
-                        locationViewModel = startupViewModel,
-                        apiViewModel = viewModel,
-                        modifier = Modifier.padding(innerPadding)
+                    Navigation(
+                        viewModel = viewModel,
+                        locationViewModel = startupViewModel
                     )
                 }
             }

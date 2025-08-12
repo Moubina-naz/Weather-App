@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.example.myweather.data.api.NetworkResponse
 import com.example.myweather.data.model.toUiModel
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.myweather.data.model.WeatherCondition
 import com.example.myweather.ui.components.DayChooser
 import com.example.myweather.ui.components.SearchBars
@@ -25,7 +27,7 @@ import com.example.myweather.ui.theme.getWeatherPalette
 import com.example.myweather.viewmodel.ApiViewModel
 
 @Composable
-fun WeatherScreen(viewModel: ApiViewModel, modifier: Modifier = Modifier){
+fun WeatherScreen(viewModel: ApiViewModel, modifier: Modifier = Modifier,){
     var showContent by remember { mutableStateOf(false) }
     val weatherResult by viewModel.weatherResult.observeAsState()
     val currentCondition = remember { mutableStateOf(WeatherCondition.SUNNY) }

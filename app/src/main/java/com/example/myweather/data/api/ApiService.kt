@@ -21,7 +21,7 @@ interface ApiService {
         @Query("units") units: String = "metric"
     ):Response<WeatherResponse>
 
-    @GET("geo/1.0/direct")
+    @GET("https://api.openweathermap.org/geo/1.0/direct")
     suspend fun searchCity(
         @Query("q") city: String,
         @Query("limit") limit: Int = 5,
