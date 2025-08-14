@@ -66,6 +66,7 @@ fun SearchBars(modifier: Modifier = Modifier,
             ) {
                 Icon(
                     imageVector = Icons.Default.Search,
+                    tint = Color.White,
                     contentDescription = "Search"
                 )
             }

@@ -74,6 +74,14 @@ data class City(
 
 data class Coord(val lat: Double, val lon: Double)
 
+data class DailyForecast(
+    val date: String,
+    val minTemp: Double,
+    val maxTemp: Double,
+    val windSpeed: Double,
+    val icon: String
+)
+
 fun WeatherResponse.toUiModel(): WeatherUiModel? {
 
     if (list.isEmpty() || city == null) {
@@ -103,6 +111,7 @@ fun WeatherResponse.toUiModel(): WeatherUiModel? {
     }
     val palette = getWeatherPalette(condition)
     val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
+
     val date = dateFormat.format(this.list.firstOrNull()?.dt?.times(1000 ?: 0)?.let { Date(it) });
         return WeatherUiModel(
             condition = condition,

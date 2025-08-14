@@ -1,9 +1,11 @@
 package com.example.myweather.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myweather.data.api.NetworkResponse
+import com.example.myweather.data.model.CityScrn
 import com.example.myweather.data.model.WeatherScrn
 import com.example.myweather.ui.components.SearchBars
 import com.example.myweather.viewmodel.ApiViewModel
@@ -36,7 +39,7 @@ fun SearchScreen(modifier: Modifier = Modifier,navController: NavController,
 
     Box(modifier = Modifier.background(Color(0xFF1B1C1E))){
         Column(modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color(0xFF1B1C1E))) {
             Spacer(modifier = Modifier.height(40.dp))
             SearchBars(viewModel = viewModel,
@@ -71,23 +74,27 @@ fun SearchScreen(modifier: Modifier = Modifier,navController: NavController,
                         val suggestions = result.data
                         items(suggestions.size) { index ->
                             val city = suggestions[index]
-                            val statePart = city.state?.let { ", $it" } ?: ""
+
                             Box(
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .wrapContentWidth()
                                     .align(Alignment.CenterHorizontally)
                                     .clip(RoundedCornerShape(10.dp))
-                                    .background(Color(0xFF1B1C1E))
+                                    .background(Color(0xFFd5d9d4))
+                                    .clickable {
+                                        // Navigate to CityScreen with the city name
+                                        navController.navigate(CityScrn(city.name))
+                                    }
                             ) {
+                                val statePart = city.state?.let { ", $it" } ?: ""
                                 Text(
-                                    text = "${city.name}, ${city.country}",
+                                    text = "${city.name}$statePart, ${city.country}",
                                     fontSize = 20.sp, style = MaterialTheme.typography.labelSmall,
                                     color = Color.Black,
                                     modifier = Modifier
                                         .padding(12.dp)
                                         .fillMaxWidth()
-                                        .background(Color(0xFF1B1C1E))
                                         .padding(8.dp)
                                 )
                             }

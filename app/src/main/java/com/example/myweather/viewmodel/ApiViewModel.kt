@@ -9,6 +9,7 @@ import com.example.myweather.data.api.Constant
 import com.example.myweather.data.api.NetworkResponse
 import com.example.myweather.data.api.RetrofitInstance
 import com.example.myweather.data.model.CitySearchResponse
+import com.example.myweather.data.model.DailyForecast
 import com.example.myweather.data.model.WeatherResponse
 import kotlinx.coroutines.launch
 
@@ -110,5 +111,17 @@ class ApiViewModel: ViewModel() {
         }
     }
 
-
+    fun getDailyForecast(weatherResponse: WeatherResponse): List<DailyForecast> {
+        return weatherResponse.list
+            .groupBy { it.dtTxt.substring(0, 10) } // group by YYYY-MM-DD
+            .map { (date, items) ->
+                DailyForecast(
+                    date = date,
+                    minTemp = items.minOf { it.main?.tempMin ?: 0.0 },
+                    maxTemp = items.maxOf { it.main?.tempMax ?: 0.0 },
+                    windSpeed = items.first().wind.speed,
+                    icon = items.first().weather.firstOrNull()?.icon ?: ""
+                )
+            }
+    }
     }

@@ -94,6 +94,11 @@ dependencies {
     // JSON serialization library, works with the Kotlin serialization plugin
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
+    //voyager
+    /*implementation("cafe.adriel.voyager:voyager-navigator:1.1.0")
+    implementation("cafe.adriel.voyager:voyager-screenmodel:1.1.0")
+    implementation("cafe.adriel.voyager:voyager-transitions:1.1.0")*/
+
 
 }
 
