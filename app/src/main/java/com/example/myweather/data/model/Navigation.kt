@@ -42,7 +42,9 @@ StartupScreen(locationViewModel = locationViewModel, apiViewModel = viewModel, n
         }
         composable<CityScrn>{backStackEntry->
             val cityName = backStackEntry.toRoute<CityScrn>().cityName
-            CityScreen(viewModel = viewModel, navController = navController,
+            CityScreen(
+                viewModel = viewModel,
+                navController = navController,
                 city = cityName )
         }
     }

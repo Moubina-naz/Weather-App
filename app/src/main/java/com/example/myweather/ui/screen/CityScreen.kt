@@ -19,7 +19,7 @@ import com.example.myweather.ui.components.ForecastUI
 import com.example.myweather.viewmodel.ApiViewModel
 
 @Composable
-fun CityScreen(viewModel: ApiViewModel,
+fun CityScreen( viewModel: ApiViewModel ,
                navController: NavController,
                city : String){
 
@@ -36,7 +36,7 @@ fun CityScreen(viewModel: ApiViewModel,
 
         is NetworkResponse.Success -> {
             val forecast = result.data
-            ForecastUI(forecast)
+            ForecastUI(forecast,viewModel)
         }
 
         is NetworkResponse.Error -> {
@@ -47,7 +47,7 @@ fun CityScreen(viewModel: ApiViewModel,
     }
     Column(modifier=Modifier.fillMaxSize().padding(top =20.dp,bottom = 20.dp,)) {
 
-Text("${city}",fontSize = 30.sp, style = MaterialTheme.typography.titleLarge,color = Color.Black)
+
 
     }
 
