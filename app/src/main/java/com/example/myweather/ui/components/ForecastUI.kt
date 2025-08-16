@@ -31,13 +31,16 @@ LazyRow(){items(daily.size){ i ->
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(8.dp)
     ) {
-        Text(text = if (i == 0) "Today" else day.date, fontSize = 14.sp,)
-        Text(text = "${day.maxTemp.toInt()}° / ${day.minTemp.toInt()}°")
-        Text(text = "${day.windSpeed} km/h", fontSize = 12.sp)
+        Text(text = if (i == 0) "Today" else day.date, fontSize = 14.sp, style = MaterialTheme.typography.labelSmall)
+        Text(text = "${day.maxTemp.toInt()}° / ${day.minTemp.toInt()}°",fontSize = 12.sp, style = MaterialTheme.typography.labelSmall)
+        Text(text = "${day.windSpeed} km/h", fontSize = 12.sp, style = MaterialTheme.typography.labelSmall)
     }
 }
 }
+        Spacer(Modifier.height(24.dp))
 
+        // 👉 Graph here
+        CityGraph(daily)
     }
 }
 
