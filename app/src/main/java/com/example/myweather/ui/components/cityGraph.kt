@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import com.example.myweather.data.model.DailyForecast
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,14 +51,14 @@ fun CityGraph(daily: List<DailyForecast>,
             .horizontalScroll(scrollState)
             .padding(16.dp)
     ) {
-        // ---- Row of Days + Dates ----
+        Spacer(Modifier.height(40.dp))
         Row(
             modifier = Modifier.width(cellWidth * daily.size)
         ) {
             daily.forEachIndexed { index, day ->
                 val label = when (index) {
                     0 -> "Today"
-                    1 -> "Tomorrow"
+                    1 -> "Tom"
                     else -> {
                         val parsed =
                             LocalDate.parse(day.date, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -85,13 +86,13 @@ fun CityGraph(daily: List<DailyForecast>,
             }
         }
 
-        Spacer(Modifier.height(30.dp))
+        Spacer(Modifier.height(50.dp))
 
-        // ---- GRAPH ----
         Box(
             modifier = Modifier
                 .height(200.dp)
-                .width(cellWidth * daily.size),
+                .width(cellWidth * daily.size)
+                .background(Color.Transparent),
             contentAlignment = Alignment.TopCenter
         ) {
             Canvas(
@@ -101,11 +102,11 @@ fun CityGraph(daily: List<DailyForecast>,
                 val minTemp = daily.minOf { it.minTemp }
                 val tempRange = (maxTemp - minTemp).coerceAtLeast(1.0)
 
-                val stepX = cellWidth.toPx() // ✅ key change: use cellWidth
+                val stepX = size.width / (daily.size - 1).toFloat()
                 val stepY = size.height / tempRange.toFloat()
 
                 daily.forEachIndexed { index, day ->
-                    val x = index * stepX + stepX / 2f // ✅ center inside each column
+                    val x = index * stepX
                     val yMax = size.height - ((day.maxTemp - minTemp) * stepY).toFloat()
                     val yMin = size.height - ((day.minTemp - minTemp) * stepY).toFloat()
 
@@ -115,14 +116,14 @@ fun CityGraph(daily: List<DailyForecast>,
 
                     // Connecting lines
                     if (index > 0) {
-                        val prevX = (index - 1) * stepX + stepX / 2f
+                        val prevX = (index - 1) * stepX.toFloat()
                         val prevYMax =
                             size.height - ((daily[index - 1].maxTemp - minTemp) * stepY).toFloat()
                         val prevYMin =
                             size.height - ((daily[index - 1].minTemp - minTemp) * stepY).toFloat()
 
-                        drawLine(Color.Blue, Offset(prevX, prevYMax), Offset(x, yMax), 4f)
-                        drawLine(Color.Cyan, Offset(prevX, prevYMin), Offset(x, yMin), 4f)
+                        drawLine(Color.Blue, Offset(prevX, prevYMax), Offset(x, yMax), 2f)
+                        drawLine(Color.Cyan, Offset(prevX, prevYMin), Offset(x, yMin), 2f)
                     }
 
                     // Temp labels
@@ -130,7 +131,7 @@ fun CityGraph(daily: List<DailyForecast>,
                         drawText(
                             "${day.maxTemp}°",
                             x,
-                            yMax - 16,
+                            yMax - 24,
                             android.graphics.Paint().apply {
                                 color = android.graphics.Color.BLACK
                                 textSize = 32f
@@ -140,7 +141,7 @@ fun CityGraph(daily: List<DailyForecast>,
                         drawText(
                             "${day.minTemp}°",
                             x,
-                            yMin + 36,
+                            yMin + 48,
                             android.graphics.Paint().apply {
                                 color = android.graphics.Color.GRAY
                                 textSize = 32f
@@ -180,5 +181,5 @@ fun CityGraph(daily: List<DailyForecast>,
                 }
             }
         }
-    }  }
+    }   }
 
