@@ -81,7 +81,11 @@ class ApiViewModel: ViewModel() {
 
                 _weatherResult.postValue(NetworkResponse.Success(weatherResponse))
             } catch (e: Exception) {
-                _weatherResult.postValue(NetworkResponse.Error(e.message ?: "Network request failed"))
+                _weatherResult.postValue(
+                    NetworkResponse.Error(
+                        e.message ?: "Network request failed"
+                    )
+                )
             }
         }
     }
@@ -90,7 +94,7 @@ class ApiViewModel: ViewModel() {
     val searchResults: LiveData<NetworkResponse<List<CitySearchResponse>>> = _searchResults
 
 
-    fun SearchCity(query: String){
+    fun SearchCity(query: String) {
         _searchResults.postValue(NetworkResponse.Loading)
         viewModelScope.launch {
             try {
@@ -124,4 +128,13 @@ class ApiViewModel: ViewModel() {
                 )
             }
     }
+
+    private val _savedCities = mutableListOf("Delhi")
+    val savedCities: List<String> = _savedCities
+
+    fun addCity(city: String) {
+        if (!_savedCities.contains(city)) {
+            _savedCities.add(city)
+        }
     }
+}

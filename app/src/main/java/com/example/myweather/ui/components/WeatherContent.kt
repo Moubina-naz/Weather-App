@@ -2,6 +2,7 @@ package com.example.myweather.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,7 +37,8 @@ import com.example.myweather.data.model.WeatherUiModel
 import com.example.myweather.data.model.vertical
 
 @Composable
-fun WeatherContent(weatherUi: WeatherUiModel) {
+fun WeatherContent(weatherUi: WeatherUiModel,
+                   onAddCity: () -> Unit = {}) {
 
     Box(
         modifier = Modifier
@@ -111,7 +113,7 @@ fun WeatherContent(weatherUi: WeatherUiModel) {
                 style = MaterialTheme.typography.bodyLarge,
                 color = weatherUi.textColor
             )
-           Icon(imageVector = Icons.Default.Add , contentDescription ="search", tint = weatherUi.textColor, modifier = Modifier.size(40.dp) )
+           Icon(imageVector = Icons.Default.Add , contentDescription ="search", tint = weatherUi.textColor, modifier = Modifier.size(40.dp).clickable { onAddCity?.invoke() } )
         }
     }
 }
