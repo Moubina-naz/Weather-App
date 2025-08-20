@@ -26,8 +26,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myweather.data.api.NetworkResponse
-import com.example.myweather.data.model.CityScrn
+import com.example.myweather.data.model.Forecasteui
 import com.example.myweather.data.model.WeatherScrn
+import com.example.myweather.ui.components.ForecastUI
 import com.example.myweather.ui.components.SearchBars
 import com.example.myweather.viewmodel.ApiViewModel
 
@@ -74,7 +75,6 @@ fun SearchScreen(modifier: Modifier = Modifier,navController: NavController,
                         val suggestions = result.data
                         items(suggestions.size) { index ->
                             val city = suggestions[index]
-
                             Box(
                                 modifier = Modifier
                                     .padding(8.dp)
@@ -83,8 +83,8 @@ fun SearchScreen(modifier: Modifier = Modifier,navController: NavController,
                                     .clip(RoundedCornerShape(10.dp))
                                     .background(Color(0xFFd5d9d4))
                                     .clickable {
-                                        // Navigate to CityScreen with the city name
-                                        navController.navigate(CityScrn(city.name))
+
+                                        navController.navigate(Forecasteui(city.name))
                                     }
                             ) {
                                 val statePart = city.state?.let { ", $it" } ?: ""

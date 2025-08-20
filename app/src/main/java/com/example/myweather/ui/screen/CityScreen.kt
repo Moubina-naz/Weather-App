@@ -1,5 +1,7 @@
 package com.example.myweather.ui.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +20,7 @@ import com.example.myweather.data.api.NetworkResponse
 import com.example.myweather.ui.components.ForecastUI
 import com.example.myweather.viewmodel.ApiViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CityScreen( viewModel: ApiViewModel ,
                navController: NavController,
@@ -36,7 +39,7 @@ fun CityScreen( viewModel: ApiViewModel ,
 
         is NetworkResponse.Success -> {
             val forecast = result.data
-            ForecastUI(forecast,viewModel)
+            //ForecastUI(forecast,viewModel)
         }
 
         is NetworkResponse.Error -> {
@@ -44,11 +47,6 @@ fun CityScreen( viewModel: ApiViewModel ,
         }
 
         null -> {}
-    }
-    Column(modifier=Modifier.fillMaxSize().padding(top =20.dp,bottom = 20.dp,)) {
-
-
-
     }
 
 }

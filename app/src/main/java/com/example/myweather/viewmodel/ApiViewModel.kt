@@ -11,6 +11,7 @@ import com.example.myweather.data.api.RetrofitInstance
 import com.example.myweather.data.model.CitySearchResponse
 import com.example.myweather.data.model.DailyForecast
 import com.example.myweather.data.model.WeatherResponse
+import com.example.myweather.data.model.WeatherUiModel
 import kotlinx.coroutines.launch
 
 class ApiViewModel: ViewModel() {
@@ -129,12 +130,13 @@ class ApiViewModel: ViewModel() {
             }
     }
 
-    private val _savedCities = mutableListOf("Delhi")
-    val savedCities: List<String> = _savedCities
+    private val _savedCities = MutableLiveData<List<WeatherUiModel>>(emptyList())
+    val savedCities: LiveData<List<WeatherUiModel>> = _savedCities
 
-    fun addCity(city: String) {
-        if (!_savedCities.contains(city)) {
-            _savedCities.add(city)
+    fun addCity(city: WeatherUiModel) {
+        val current = _savedCities.value ?: emptyList()
+        if (!current.any { it.city == city.city }) { // avoid duplicates
+            _savedCities.value = current + city
         }
     }
 }
