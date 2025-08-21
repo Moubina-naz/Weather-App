@@ -135,7 +135,7 @@ class ApiViewModel: ViewModel() {
 
     fun addCity(city: WeatherUiModel) {
         val current = _savedCities.value ?: emptyList()
-        if (!current.any { it.city == city.city }) { // avoid duplicates
+        if (current.none { it.city == city.city }) {  // avoid duplicates
             _savedCities.value = current + city
         }
     }

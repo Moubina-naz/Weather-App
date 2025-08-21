@@ -39,7 +39,7 @@ fun CityScreen( viewModel: ApiViewModel ,
 
         is NetworkResponse.Success -> {
             val forecast = result.data
-            //ForecastUI(forecast,viewModel)
+            ForecastUI(viewModel,navController,city)
         }
 
         is NetworkResponse.Error -> {

@@ -95,6 +95,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     implementation ("androidx.compose.foundation:foundation:1.6.0")
+    implementation ("com.google.accompanist:accompanist-pager:0.36.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.36.0")
+
 
     //voyager
     /*implementation("cafe.adriel.voyager:voyager-navigator:1.1.0")

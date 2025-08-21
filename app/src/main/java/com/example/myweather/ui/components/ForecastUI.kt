@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,10 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myweather.data.api.NetworkResponse
-import com.example.myweather.data.model.WeatherResponse
+import com.example.myweather.data.model.Forecastui
+import com.example.myweather.data.model.WeatherScrn
+import com.example.myweather.data.model.toUiModel
 import com.example.myweather.viewmodel.ApiViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -62,7 +61,7 @@ fun ForecastUI( viewModel: ApiViewModel,
 
                 Spacer(Modifier.height(40.dp))
 
-
+                val uiModel = forecast.toUiModel()
                 Text("Temperature Forecast", style = MaterialTheme.typography.labelSmall)
                 CityGraph(daily)
 
@@ -71,7 +70,14 @@ fun ForecastUI( viewModel: ApiViewModel,
                         .padding(10.dp)
                 ) {
                     IconButton(
-                        onClick = {  },
+                        onClick = {  if (uiModel != null) {
+                            viewModel.addCity(uiModel)   // directly save
+                            navController.navigate(WeatherScrn){
+                                popUpTo(Forecastui){ inclusive = true }
+                                launchSingleTop = true
+                            }
+                            // go back to WeatherScreen
+                        } },
                         modifier = Modifier
                             .align(Alignment.BottomCenter) // center bottom
                             .size(60.dp)

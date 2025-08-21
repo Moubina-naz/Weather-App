@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -35,6 +36,7 @@ import com.example.myweather.ui.components.SearchBars
 import com.example.myweather.ui.components.WeatherContent
 import com.example.myweather.ui.theme.getWeatherPalette
 import com.example.myweather.viewmodel.ApiViewModel
+import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -44,7 +46,7 @@ fun WeatherScreen(viewModel: ApiViewModel, modifier: Modifier = Modifier) {
 
     // ✅ Saved cities list (starts empty)
     var savedCities by remember { mutableStateOf(listOf<WeatherUiModel>()) }
-
+    val scope = rememberCoroutineScope()
     // Pager state
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -58,6 +60,8 @@ fun WeatherScreen(viewModel: ApiViewModel, modifier: Modifier = Modifier) {
             .background(getWeatherPalette(currentCondition.value).background)
     ) {
         DayChooser(weatherCondition = currentCondition.value)
+
+
 
         when (val result = weatherResult) {
             is NetworkResponse.Loading -> {

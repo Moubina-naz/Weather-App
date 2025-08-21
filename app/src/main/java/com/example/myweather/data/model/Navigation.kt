@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.myweather.ui.components.ForecastUI
-import com.example.myweather.ui.screen.CityScreen
 import com.example.myweather.ui.screen.SearchScreen
 import com.example.myweather.ui.screen.WeatherScreen
 import com.example.myweather.viewmodel.ApiViewModel
@@ -24,7 +23,9 @@ object SearchScrn
 @Serializable
 object WeatherScrn
 @Serializable
-data class Forecasteui(val cityName: String)
+data class Forecastui(val cityName: String)
+@Serializable
+data class CityScrn(val cityName: String)
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -45,8 +46,8 @@ StartupScreen(locationViewModel = locationViewModel, apiViewModel = viewModel, n
         composable<WeatherScrn>{
             WeatherScreen(viewModel = viewModel)
         }
-        composable<Forecasteui>{backStackEntry->
-            val cityName = backStackEntry.toRoute<Forecasteui>().cityName
+        composable<Forecastui>{ backStackEntry->
+            val cityName = backStackEntry.toRoute<Forecastui>().cityName
             ForecastUI(
                 viewModel = viewModel,
                 navController = navController,

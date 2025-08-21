@@ -24,11 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.myweather.data.api.NetworkResponse
-import com.example.myweather.data.model.Forecasteui
+import com.example.myweather.data.model.Forecastui
 import com.example.myweather.data.model.WeatherScrn
-import com.example.myweather.ui.components.ForecastUI
 import com.example.myweather.ui.components.SearchBars
 import com.example.myweather.viewmodel.ApiViewModel
 
@@ -84,7 +82,7 @@ fun SearchScreen(modifier: Modifier = Modifier,navController: NavController,
                                     .background(Color(0xFFd5d9d4))
                                     .clickable {
 
-                                        navController.navigate(Forecasteui(city.name))
+                                        navController.navigate(Forecastui(city.name))
                                     }
                             ) {
                                 val statePart = city.state?.let { ", $it" } ?: ""
